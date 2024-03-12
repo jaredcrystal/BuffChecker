@@ -5,11 +5,11 @@ inputElement.addEventListener('change', (e) => {
   imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
-function checkForBuff (buff) {
+function checkForBuff (buff, screenshot) {
   let buffMat = cv.imread(buff)
   let dst = new cv.Mat();
   let mask = new cv.Mat();
-  cv.matchTemplate(mat, buffMat, dst, cv.TM_CCOEFF_NORMED, mask)
+  cv.matchTemplate(screenshot, buffMat, dst, cv.TM_CCOEFF_NORMED, mask)
   let result = cv.minMaxLoc(dst, mask);
   console.log(buff, 'result', result)
   console.log(buff, 'found?', result.maxVal > 0.7)
@@ -37,10 +37,10 @@ const buffList = [
 ]
 
 imgElement.onload = function() {
-  let mat = cv.imread(imgElement);
+  let screenshot = cv.imread(imgElement);
   // cv.imshow('canvasOutput', mat)
 
-  buffList.forEach(checkForBuff)
+  buffList.forEach(buff => checkForBuff(buff, screenshot))
 
 
 
@@ -52,7 +52,7 @@ imgElement.onload = function() {
 
   // cv.imshow('canvasOutput', mat);
 
-  mat.delete();
+  screenshot.delete();
   // ga.delete();
   // dst.delete();
   // mask.delete();
