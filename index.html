@@ -2,20 +2,21 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Hello OpenCV.js</title>
+<title>Maplestory Buff CHecker</title>
 </head>
 <body>
-<h2>Hello OpenCV.js</h2>
-<p id="status">OpenCV.js is loading...</p>
+<h2>Maplestory Buff CHecker</h2>
+<p id="status">loading...</p>
 <div>
   <div class="inputoutput">
     <img id="imageSrc" alt="No Image" />
     <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
   </div>
-    <div class="inputoutput">
+  <img src="Skill_Guided_Arrow.png" id="guided-arrow"/>
+  <!-- <div class="inputoutput">
     <img id="guidedArrow" alt="No Image" />
     <div class="caption">guidedArrow <input type="file" id="guidedArrowInput" name="file" /></div>
-  </div>
+  </div> -->
   <div class="inputoutput">
     <canvas id="canvasOutput" ></canvas>
     <div class="caption">canvasOutput</div>
@@ -29,15 +30,16 @@ inputElement.addEventListener('change', (e) => {
   imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
-let gaElement = document.getElementById('guidedArrow');
-let gaInputElement = document.getElementById('guidedArrowInput');
-gaInputElement.addEventListener('change', (e) => {
-  gaElement.src = URL.createObjectURL(e.target.files[0]);
-}, false);
+// let gaElement = document.getElementById('guidedArrow');
+// let gaInputElement = document.getElementById('guidedArrowInput');
+// gaInputElement.addEventListener('change', (e) => {
+//   gaElement.src = URL.createObjectURL(e.target.files[0]);
+// }, false);
  
 imgElement.onload = function() {
   let mat = cv.imread(imgElement);
-  let ga = cv.imread(gaElement);
+  // let ga = cv.imread(gaElement);
+  let ga = cv.imread('guided-arrow')
   // cv.imshow('canvasOutput', mat);
   cv.imshow('canvasOutput', ga)
   let dst = new cv.Mat();
@@ -63,7 +65,7 @@ imgElement.onload = function() {
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
   onRuntimeInitialized() {
-    document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+    document.getElementById('status').innerHTML = 'Ready!';
   }
 };
 </script>
