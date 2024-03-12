@@ -5,6 +5,19 @@ inputElement.addEventListener('change', (e) => {
   imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
+function markBuffFound (buff) {
+  const buffImageEl = document.getElementById(buff)
+  const parent = buffImageEl.parentNode
+  const imgContainer = document.createElement('div')
+  imgContainer.classList.add('imgContainer')
+  const checkmark = document.createElement('div')
+  checkmark.classList.add('center')
+  checkmark.innerText = '✔️'
+  parent.replaceChild(imgContainer, buffImageEl)
+  imgContainer.appendChild(buffImageEl)
+  imgContainer.appendChild(checkmark)
+}
+
 function checkForBuff (buff, screenshot) {
   let buffMat = cv.imread(buff)
   let dst = new cv.Mat();
@@ -15,15 +28,7 @@ function checkForBuff (buff, screenshot) {
   console.log(buff, 'found?', result.maxVal > 0.7)
 
   if (result.maxVal > 0.7) {
-    const buffImageEl = document.getElementById(buff)
-    const parent = buffImageEl.parentNode
-    const imgContainer = document.createElement('div')
-    imgContainer.classList.add('imgContainer')
-    const checkmark = document.createElement('div')
-    checkmark.classList.add('center')
-    parent.replaceChild(imgContainer, buffImageEl)
-    imgContainer.appendChild(buffImageEl)
-    imgContainer.appendChild(checkmark)
+    markBuffFound(buff)
   }
 
   buffMat.delete();
@@ -33,7 +38,10 @@ function checkForBuff (buff, screenshot) {
 
 const buffList = [
   'familiars',
-  'guided-arrow'
+  'echo',
+  'boss-rush',
+  'mp-red',
+  'mp-green'
 ]
 
 imgElement.onload = function() {
@@ -60,7 +68,7 @@ imgElement.onload = function() {
  
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-  onRuntimeInitialized() {
+  onRuntimeInitialized () {
     document.getElementById('status').innerHTML = 'Ready!';
   }
 };
