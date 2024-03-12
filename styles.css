@@ -16,11 +16,28 @@ body {
   margin-top: 25px;
 }
 
-.group-title {
+.groupTitle {
   display: table;
   margin: -25px auto 28px 0;
   background-color: lightsteelblue;
   font-size: 33px;
   font-weight: bold;
   padding: 0 15px;
+}
+
+.imgContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.imgContainer > img {
+  opacity: 0.3;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
 }

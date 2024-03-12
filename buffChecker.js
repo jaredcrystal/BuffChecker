@@ -13,6 +13,19 @@ function checkForBuff (buff) {
   let result = cv.minMaxLoc(dst, mask);
   console.log(buff, 'result', result)
   console.log(buff, 'found?', result.maxVal > 0.7)
+
+  if (result.maxVal > 0.7) {
+    const buffImageEl = document.getElementById(buff)
+    const parent = buffImageEl.parentNode
+    const imgContainer = document.createElement('div')
+    imgContainer.classList.add('imgContainer')
+    const checkmark = document.createElement('div')
+    checkmark.classList.add('center')
+    parent.replaceChild(imgContainer, buffImageEl)
+    imgContainer.appendChild(buffImageEl)
+    imgContainer.appendChild(checkmark)
+  }
+
   buffMat.delete();
   dst.delete();
   mask.delete();
