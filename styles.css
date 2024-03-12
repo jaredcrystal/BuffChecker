@@ -1,0 +1,26 @@
+body {
+  background-color: lightsteelblue;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.input {
+  margin-bottom: 50px;;
+}
+
+.group {
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 0px 10px 10px 10px;
+  margin-top: 25px;
+}
+
+.group-title {
+  display: table;
+  margin: -25px auto 28px 0;
+  background-color: lightsteelblue;
+  font-size: 33px;
+  font-weight: bold;
+  padding: 0 15px;
+}
