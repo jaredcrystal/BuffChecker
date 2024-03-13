@@ -18,6 +18,8 @@ const skills = [
   'guild-for-the-guild',
   'guild-hard-hitter',
   'guild-undeterred',
+  'house',
+  'fame',
 ]
 const stackingConsumables = [
   'boss-rush',
@@ -198,6 +200,8 @@ let buffList = [
   { display: 'guild-for-the-guild', algo: 'guild-for-the-guild' },
   { display: 'guild-hard-hitter', algo: 'guild-hard-hitter' },
   { display: 'guild-undeterred', algo: 'guild-undeterred' },
+  { display: 'house', algo: 'house' },
+  { display: 'fame', algo: 'fame' },
   { display: 'boss-rush', algo: 'boss-rush-white-bg' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
   { display: 'mp-green', algo: 'mp-green-white-bg' },
