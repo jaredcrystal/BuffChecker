@@ -11,6 +11,51 @@ let imgElement = document.getElementById('imageSrc');
 //   buffElement.src = URL.createObjectURL(e.target.files[0]);
 // }, false);
 
+const skills = [
+  'familiars',
+  'echo',
+  'guild-boss-slayers',
+  'guild-for-the-guild',
+  'guild-hard-hitter',
+  'guild-undeterred',
+]
+const stackingConsumables = [
+  'boss-rush',
+  'mp-red',
+  'mp-green',
+  'mp-blue',
+  'candied-apple',
+  'legions-might',
+  'guild-boss-slayers',
+  'guild-for-the-guild',
+  'guild-hard-hitter',
+  'guild-undeterred',
+  'blessing-of-the-guild',
+  'ursus',
+  'mvp',
+]
+const alchemy = ['exceptional-boost', 'legendary-hero']
+const smithing = ['weapon-tempering']
+const advStatPotion = [
+  'adv-stat-pill',
+  'adv-stat-pill2',
+  'adv-stat-potion',
+  'adv-stat-potion2',
+]
+const nonstackingConsumables = [
+  'ssiws-cheese',
+  'onyx-apple',
+  'tengu',
+  'cold-winter-energy',
+  'warrior-elixir',
+  'wizard-elixir',
+  'baby-dragon-food',
+  'cider',
+  'energizer-drink',
+]
+
+let found = []
+
 function markBuffFound (buff) {
   if (!buff.display) return
   const buffImageEl = document.getElementById(buff.display)
@@ -23,6 +68,28 @@ function markBuffFound (buff) {
   parent.replaceChild(imgContainer, buffImageEl)
   imgContainer.appendChild(buffImageEl)
   imgContainer.appendChild(checkmark)
+  found.push(buff.display)
+}
+
+function checkCategories () {
+  if (skills.every(buff => found.includes(buff))) {
+    document.getElementById('skills').classList.add('categoryComplete')
+  }
+  if (stackingConsumables.every(buff => found.includes(buff))) {
+    document.getElementById('stacking-consumables').classList.add('categoryComplete')
+  }
+  if (alchemy.some(buff => found.includes(buff))) {
+    document.getElementById('alchemy').classList.add('categoryComplete')
+  }
+  if (smithing.every(buff => found.includes(buff))) {
+    document.getElementById('smithing').classList.add('categoryComplete')
+  }
+  if (advStatPotion.some(buff => found.includes(buff))) {
+    document.getElementById('adv-stat-potion').classList.add('categoryComplete')
+  }
+  if (nonstackingConsumables.some(buff => found.includes(buff))) {
+    document.getElementById('nonstacking-consumables').classList.add('categoryComplete')
+  }
 }
 
 function checkForBuff (buff, descriptors2) {
@@ -73,7 +140,7 @@ function checkForBuff (buff, descriptors2) {
   //bf.match(descriptors1, descriptors2, matches)
   bf.knnMatch(buff.descriptors, descriptors2, matches, 2);
 
-  console.log('matches', matches.size())
+  // console.log('matches', matches.size())
   
   let good_matches = new cv.DMatchVector();
   let knnDistance_option = 0.7;
@@ -91,7 +158,7 @@ function checkForBuff (buff, descriptors2) {
       }
   }
 
-  console.log('good matches size:', good_matches.size())
+  // console.log('good matches size:', good_matches.size())
 
   // console.log("keeping ", counter, " points in good_matches vector out of ", matches.size(), " contained in this match vector:", matches);
 
@@ -127,16 +194,16 @@ let orb = null;
 let buffList = [
   { display: 'familiars', algo: 'familiars' },
   { display: 'echo', algo: 'echo' },
+  { display: 'guild-boss-slayers', algo: 'guild-boss-slayers' },
+  { display: 'guild-for-the-guild', algo: 'guild-for-the-guild' },
+  { display: 'guild-hard-hitter', algo: 'guild-hard-hitter' },
+  { display: 'guild-undeterred', algo: 'guild-undeterred' },
   { display: 'boss-rush', algo: 'boss-rush-white-bg' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
   { display: 'mp-green', algo: 'mp-green-white-bg' },
   { display: 'mp-blue', algo: 'mp-blue-white-bg' },
   { display: 'candied-apple', algo: 'candied-apple-white-bg' },
   { display: 'legions-might', algo: 'legions-might' },
-  { display: 'guild-boss-slayers', algo: 'guild-boss-slayers' },
-  { display: 'guild-for-the-guild', algo: 'guild-for-the-guild' },
-  { display: 'guild-hard-hitter', algo: 'guild-hard-hitter' },
-  { display: 'guild-undeterred', algo: 'guild-undeterred' },
   { display: 'blessing-of-the-guild', algo: 'blessing-guild-full' },
   { display: 'ursus', algo: 'ursus-full' },
   { display: 'mvp', algo: 'mvp' },
@@ -177,6 +244,7 @@ function checkBuffs () {
   // checkForBuff({algo: 'buffSrc'}, screenshot)
 
   // screenshot.delete();
+  checkCategories()
 }
 
 imgElement.onload = checkBuffs
@@ -193,6 +261,7 @@ document.onpaste = function (event) {
         // console.log(event.target.result) // data url!
         // imgElement.src = URL.createObjectURL(e.target.files[0]);
         imgElement.src = event.target.result
+        document.getElementById('status').innerHTML = ''
       };
       reader.readAsDataURL(blob);
     }
@@ -222,7 +291,7 @@ var Module = {
       // save the descriptors in the buff object
       buff.descriptors = descriptors1;
     })
-
+    console.log('done with icons')
     document.getElementById('status').innerHTML = 'Ready! Paste a screenshot of your buff bar.';
   }
 };
