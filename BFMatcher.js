@@ -25,7 +25,8 @@ function markBuffFound (buff) {
   imgContainer.appendChild(checkmark)
 }
 
-function checkForBuff (buff, screenshot) {
+function checkForBuff (buff, descriptors2) {
+  console.log("checking:", buff.display)
   let im1 = cv.imread(buff.algo)
   let buffMat = new cv.Mat();
   let dsize = new cv.Size(im1.cols*5, im1.rows*5);
@@ -34,15 +35,15 @@ function checkForBuff (buff, screenshot) {
   // console.log('buffMat', buffMat)
   // console.log('screenshot', screenshot)
   let im1Gray = new cv.Mat();
-  let im2Gray = new cv.Mat();
+  // let im2Gray = new cv.Mat();
   cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
-  cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
+  // cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
   // cv.imshow('canvasOutput1', im1Gray);
   // cv.imshow('canvasOutput2', im2Gray);
   let keypoints1 = new cv.KeyPointVector();
-  let keypoints2 = new cv.KeyPointVector();
+  // let keypoints2 = new cv.KeyPointVector();
   let descriptors1 = new cv.Mat();
-  let descriptors2 = new cv.Mat();
+  // let descriptors2 = new cv.Mat();
 
 
   // let mask = new cv.Mat();
@@ -57,8 +58,8 @@ function checkForBuff (buff, screenshot) {
   // find the keypoints and descriptors with ORB
   orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
   console.log('done computing1')
-  orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
-  console.log('done computing2')
+  // orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
+  // console.log('done computing2')
 
   // console.log('keypoints1:', keypoints1.size(), 'keypoints2:', keypoints2.size())
   // console.log('descriptors1:', descriptors1.size(), 'descriptors2:', descriptors2.size())
@@ -107,11 +108,11 @@ function checkForBuff (buff, screenshot) {
   // }
 
   //draw:
-  let imMatches = new cv.Mat();
-  let color = new cv.Scalar(0,255,0, 255);
-  cv.drawMatches(buffMat, keypoints1, screenshot, keypoints2, 
-                    good_matches, imMatches, color);
-  cv.imshow('canvasOutput3', imMatches);
+  // let imMatches = new cv.Mat();
+  // let color = new cv.Scalar(0,255,0, 255);
+  // cv.drawMatches(buffMat, keypoints1, screenshot, keypoints2, 
+  //                   good_matches, imMatches, color);
+  // cv.imshow('canvasOutput3', imMatches);
   
   if (counter > 1) {
     markBuffFound(buff)
@@ -128,6 +129,7 @@ const buffList = [
   { display: 'boss-rush', algo: 'boss-rush-white-bg' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
   { display: 'mp-green', algo: 'mp-green-white-bg' },
+  { display: 'mp-blue', algo: 'mp-blue-white-bg' },
   { display: 'candied-apple', algo: 'candied-apple-white-bg' },
   { display: 'legions-might', algo: 'legions-might' },
   { display: 'guild-boss-slayers', algo: 'guild-boss-slayers' },
@@ -140,10 +142,10 @@ const buffList = [
   { display: 'exceptional-boost', algo: 'exceptional-boost-white-bg' },
   { display: 'legendary-hero', algo: 'legendary-hero-white-bg' },
   { display: 'weapon-tempering', algo: 'weapon-tempering' },
-  { display: 'adv-state-pill', algo: 'adv-state-pill-white-bg' },
-  { display: 'adv-state-pill2', algo: 'adv-state-pill2-white-bg' },
-  { display: 'adv-state-potion', algo: 'adv-state-potion-white-bg' },
-  { display: 'adv-state-potion2', algo: 'adv-state-potion2-white-bg' },
+  { display: 'adv-stat-pill', algo: 'adv-stat-pill-white-bg' },
+  { display: 'adv-stat-pill2', algo: 'adv-stat-pill2-white-bg' },
+  { display: 'adv-stat-potion', algo: 'adv-stat-potion-white-bg' },
+  { display: 'adv-stat-potion2', algo: 'adv-stat-potion2-white-bg' },
   { display: 'ssiws-cheese', algo: 'ssiws-cheese-white-bg' },
   { display: 'onyx-apple', algo: 'onyx-apple-white-bg' },
   { display: 'tengu', algo: 'tengu' },
@@ -159,10 +161,18 @@ function checkBuffs () {
   let im2 = cv.imread(imgElement);
   let screenshot = new cv.Mat();
   // console.log("cols/rows", im2.cols, im2.rows)
+  // scale up the screenshot:
   let dsize = new cv.Size(im2.cols*5, im2.rows*5);
   cv.resize(im2, screenshot, dsize, 0, 0, cv.INTER_AREA);
+  // grayscale the screenshot:
+  let im2Gray = new cv.Mat();
+  cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
+  // detectAndCompute keypoints and descriptors on the screenshot:
+  let keypoints2 = new cv.KeyPointVector();
+  let descriptors2 = new cv.Mat();
+  orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
 
-  buffList.forEach(buff => checkForBuff(buff, screenshot))
+  buffList.forEach(buff => checkForBuff(buff, descriptors2))
   // checkForBuff({algo: 'buffSrc'}, screenshot)
 
   screenshot.delete();
