@@ -8,6 +8,7 @@
 <body>
 <h2>Maplestory Buff Checker</h2>
 <p id="status">loading...</p>
+<!-- <button onclick="checkBuffs()">go</button> -->
 <div>
   <div class="input">
     <img id="imageSrc" alt="No Image" />
@@ -18,18 +19,21 @@
     <div class="groupTitle">All of these</div>
     <img src="icons/familiars.png" id="familiars" title="Familiars"/>
     <img src="icons/Echo_of_Hero.png" id="echo" title="Hero's Echo"/>
-    <img src="icons/Advanced_Boss_Rush_Boost_Potion.png" id="boss-rush" title="Advanced Boss Rush Boost Potion"/>
-    <img src="icons/MP_Extreme_Red_Potion.png" id="mp-red" title="Monster Park Extreme Red Potion"/>
-    <img src="icons/MP_Extreme_Green_Potion.png" id="mp-green" title="Monster Park Extreme Green Potion"/>
+    <img src="icons/Advanced_Boss_Rush_Boost_Potion_white_bg.png" id="boss-rush" title="Advanced Boss Rush Boost Potion"/>
+    <img src="icons/MP_Extreme_Red_Potion_white_square.png" id="mp-red" title="Monster Park Extreme Red Potion"/>
+    <img src="icons/MP_Extreme_Green_Potion_white_square.png" id="mp-green" title="Monster Park Extreme Green Potion"/>
   </div>
 
+  <!-- <div class="input">
+    <img id="buffSrc" alt="No Image" />
+    <div class="caption"><input type="file" id="buffInput" name="file" /></div>
+  </div> -->
 
-  <div class="output">
-    <canvas id="canvasOutput" ></canvas>
-    <div class="caption"></div>
-  </div>
+  <canvas id="canvasOutput1"></canvas>
+  <canvas id="canvasOutput2"></canvas>
+  <canvas id="canvasOutput3"></canvas>
 </div>
-<script src="buffChecker.js" type="text/javascript"></script>
+<script src="BFMatcher.js" type="text/javascript"></script>
 <script async src="https://docs.opencv.org/4.x/opencv.js" type="text/javascript"></script>
 </body>
 </html>
