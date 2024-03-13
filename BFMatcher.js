@@ -249,6 +249,7 @@ function checkBuffs () {
 
   // screenshot.delete();
   checkCategories()
+  document.getElementById('status').innerHTML = ''
 }
 
 imgElement.onload = checkBuffs
@@ -264,8 +265,8 @@ document.onpaste = function (event) {
       reader.onload = function (event) {
         // console.log(event.target.result) // data url!
         // imgElement.src = URL.createObjectURL(e.target.files[0]);
+        document.getElementById('status').innerHTML = 'processing your screenshot...'
         imgElement.src = event.target.result
-        document.getElementById('status').innerHTML = ''
       };
       reader.readAsDataURL(blob);
     }
