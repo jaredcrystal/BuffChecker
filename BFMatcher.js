@@ -27,37 +27,37 @@ function markBuffFound (buff) {
 
 function checkForBuff (buff, descriptors2) {
   console.log("checking:", buff.display)
-  let im1 = cv.imread(buff.algo)
-  let buffMat = new cv.Mat();
-  let dsize = new cv.Size(im1.cols*5, im1.rows*5);
-  // You can try more different parameters
-  cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
-  // console.log('buffMat', buffMat)
-  // console.log('screenshot', screenshot)
-  let im1Gray = new cv.Mat();
-  // let im2Gray = new cv.Mat();
-  cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
-  // cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
-  // cv.imshow('canvasOutput1', im1Gray);
-  // cv.imshow('canvasOutput2', im2Gray);
-  let keypoints1 = new cv.KeyPointVector();
-  // let keypoints2 = new cv.KeyPointVector();
-  let descriptors1 = new cv.Mat();
-  // let descriptors2 = new cv.Mat();
+  // let im1 = cv.imread(buff.algo)
+  // let buffMat = new cv.Mat();
+  // let dsize = new cv.Size(im1.cols*5, im1.rows*5);
+  // // You can try more different parameters
+  // cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
+  // // console.log('buffMat', buffMat)
+  // // console.log('screenshot', screenshot)
+  // let im1Gray = new cv.Mat();
+  // // let im2Gray = new cv.Mat();
+  // cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
+  // // cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
+  // // cv.imshow('canvasOutput1', im1Gray);
+  // // cv.imshow('canvasOutput2', im2Gray);
+  // let keypoints1 = new cv.KeyPointVector();
+  // // let keypoints2 = new cv.KeyPointVector();
+  // let descriptors1 = new cv.Mat();
+  // // let descriptors2 = new cv.Mat();
 
 
   // let mask = new cv.Mat();
-  console.log("KAZE")
+  // console.log("KAZE")
   // Initiate ORB detector
   // let orb = new cv.ORB()
-  let orb = new cv.AKAZE();
+  // let orb = new cv.AKAZE();
   // let orb = new cv.BRISK()
   // let orb = new cv.KAZE()
 
 
   // find the keypoints and descriptors with ORB
-  orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
-  console.log('done computing1')
+  // orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
+  // console.log('done computing1')
   // orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
   // console.log('done computing2')
 
@@ -71,7 +71,7 @@ function checkForBuff (buff, descriptors2) {
   //var matches = new cv.DMatchVector();
   let matches = new cv.DMatchVectorVector();
   //bf.match(descriptors1, descriptors2, matches)
-  bf.knnMatch(descriptors1, descriptors2, matches, 2);
+  bf.knnMatch(buff.descriptors, descriptors2, matches, 2);
 
   console.log('matches', matches.size())
   
@@ -123,7 +123,8 @@ function checkForBuff (buff, descriptors2) {
   // mask.delete();
 }
 
-const buffList = [
+let orb = null;
+let buffList = [
   { display: 'familiars', algo: 'familiars' },
   { display: 'echo', algo: 'echo' },
   { display: 'boss-rush', algo: 'boss-rush-white-bg' },
@@ -155,7 +156,7 @@ const buffList = [
   { display: 'baby-dragon-food', algo: 'baby-dragon-food-white-bg' },
   { display: 'cider', algo: 'cider-white-bg' },
   { display: 'energizer-drink', algo: 'energizer-drink-white-bg' },
-]
+];
 
 function checkBuffs () {
   let im2 = cv.imread(imgElement);
@@ -200,6 +201,28 @@ document.onpaste = function (event) {
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
   onRuntimeInitialized () {
-    document.getElementById('status').innerHTML = 'Ready!';
+    document.getElementById('status').innerHTML = 'processing buff icons...';
+
+    orb = new cv.AKAZE();
+    console.log('prepping buff icons')
+    buffList.forEach(buff => {
+      // read the buff image
+      let im1 = cv.imread(buff.algo)
+      // resize (make it 5x bigger)
+      let buffMat = new cv.Mat();
+      let dsize = new cv.Size(im1.cols*5, im1.rows*5);
+      cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
+      // grayscale it
+      let im1Gray = new cv.Mat();
+      cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
+      let keypoints1 = new cv.KeyPointVector();
+      let descriptors1 = new cv.Mat();
+      // find the keypoints and descriptors with ORB
+      orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
+      // save the descriptors in the buff object
+      buff.descriptors = descriptors1;
+    })
+
+    document.getElementById('status').innerHTML = 'Ready! Paste a screenshot of your buff bar.';
   }
 };
