@@ -6,28 +6,100 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h2>Maplestory Buff Checker</h2>
+<h1>Maplestory Buff Checker</h1>
 <p id="status">loading...</p>
 <!-- <button onclick="checkBuffs()">go</button> -->
 <div>
-  <div class="input">
+  <!-- <div class="input">
     <img id="imageSrc" alt="No Image" />
     <div class="caption"><input type="file" id="fileInput" name="file" /></div>
+  </div> -->
+  <img id="imageSrc" class="screenshot" />
+  
+  <div class="group">
+    <div class="groupTitle">Skills</div>
+    <img src="icons/familiars.png" id="familiars" title="Familiars" />
+    <img src="icons/Echo_of_Hero.png" id="echo" title="Hero's Echo" />
+    <img src="icons/Guild_Boss_Slayers.png" id="guild-boss-slayers" title="Guild Skill: Boss Slayers" />
+    <img src="icons/Guild_For_the_Guild.png" id="guild-for-the-guild" title="Guild Skill: For the Guild!" />
+    <img src="icons/Guild_Hard_Hitter.png" id="guild-hard-hitter" title="Guild Skill: Hard Hitter" />
+    <img src="icons/Guild_Undeterred.png" id="guild-undeterred" title="Guild Skill: Undeterred" />
+  </div>
+
+  <div class="group">
+    <div class="groupTitle">Stacking Consumables</div>
+    <img src="icons/Advanced_Boss_Rush_Boost_Potion.png" id="boss-rush" title="Advanced Boss Rush Boost Potion" />
+    <img src="icons/MP_Extreme_Red_Potion.png" id="mp-red" title="Monster Park Extreme Red Potion" />
+    <img src="icons/MP_Extreme_Blue_Potion.png" id="mp-red" title="Monster Park Extreme Blue Potion" />
+    <img src="icons/MP_Extreme_Green_Potion.png" id="mp-green" title="Monster Park Extreme Green Potion" />
+    <img src="icons/Candied_Apple.png" id="candied-apple" title="Candied Apple" />
+    <img src="icons/Legions_Might.png" id="legions-might" title="Legion's Might" />
+    <img src="icons/Blessing_of_the_Guild.png" id="blessing-of-the-guild" title="Blessing of the Guild" />
+    <img src="icons/Masarayus_Gift_Atmospheric_Effect_Coupon.png" id="ursus" title="(Ursus) Masarayus Gift Atmospheric Effect Coupon" />
+    <img src="icons/mvp_superpower_scaled.jpg" id="mvp" title="MVP Superpower Buff" />
   </div>
   
   <div class="group">
-    <div class="groupTitle">All of these</div>
-    <img src="icons/familiars.png" id="familiars" title="Familiars"/>
-    <img src="icons/Echo_of_Hero.png" id="echo" title="Hero's Echo"/>
-    <img src="icons/Advanced_Boss_Rush_Boost_Potion.png" id="boss-rush" title="Advanced Boss Rush Boost Potion"/>
-    <img src="icons/MP_Extreme_Red_Potion.png" id="mp-red" title="Monster Park Extreme Red Potion"/>
-    <img src="icons/MP_Extreme_Green_Potion.png" id="mp-green" title="Monster Park Extreme Green Potion"/>
-    <img src="icons/Candied_Apple.png" id="candied-apple" title="Monster Park Extreme Green Potion"/>
+    <div class="groupTitle">Profession</div>
+    <div class="subgroup">
+      <div class="subgroupTitle">Alchemy (max: 1)</div>
+      <img src="icons/Exceptional_Boost_Potion.png" id="exceptional-boost" title="Exceptional Boost Potion" />
+      <img src="icons/Legendary_Hero_Potion.png" id="legendary-hero" title="Legendary Hero Potion" />
+    </div>
+    <div class="subgroup">
+      <div class="subgroupTitle">Smithing</div>
+      <img src="icons/Advanced_Weapon_Tempering.png" id="weapon-tempering" title="Advanced Weapon Tempering" />
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="groupTitle">Advanced Stat Potion</div>
+    <div class="subgroup">
+      <div class="subgroupTitle">(max: 1 per stat)</div>
+      <img src="icons/Advanced_Stat_Pill.png" id="adv-stat-pill" title="Advanced Stat Pill" />
+      <img src="icons/Advanced_Stat_Pill2.png" id="adv-stat-pill2" title="Advanced Stat Pill" />
+      <img src="icons/Advanced_Stat_Potion.png" id="adv-stat-potion" title="Advanced Stat Potion" />
+      <img src="icons/Advanced_Stat_Potion2.png" id="adv-stat-potion2" title="Advanced Stat Potion" />
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="groupTitle">Nonstacking Consumables</div>
+    <div class="subgroup">
+      <div class="subgroupTitle">(max: 1)</div>
+      <img src="icons/Ssiws_Cheese.png" id="ssiws-cheese" title="Ssiws Cheese" />
+      <img src="icons/onyx_apple.gif" id="onyx-apple" title="Onyx Apple" />
+      <img src="icons/tengu_scaled3.png" id="tengu" title="Tengu's Judgement" />
+      <img src="icons/cold-winter-energy.png" id="cold-winter-energy" title="Cold Winter Energy" />
+      <img src="icons/warrior_elixir.gif" id="warrior-elixir" title="Warrior Elixir" />
+      <img src="icons/wizard_elixir.gif" id="wizard-elixir" title="Wizard Elixir" />
+      <img src="icons/Baby_Dragon_Food.png" id="baby-dragon-food" title="Baby Dragon Food" />
+      <img src="icons/Cider.png" id="cider" title="Cider" />
+      <img src="icons/the-energizer-drink.png" id="energizer-drink" title="The Energizer Drink" />
+    </div>
   </div>
 
   <div class="hidden">
-    <img src="icons/MP_Extreme_Red_Potion_white_square.png" id="mp-red-white-bg" />
+    <img src="icons/MP_Extreme_Red_Potion_square_white_bg.png" id="mp-red-white-bg" />
+    <img src="icons/MP_Extreme_Green_Potion_square_white_bg.png" id="mp-green-white-bg" />
+    <img src="icons/MP_Extreme_Blue_Potion_square_white_bg.png" id="mp-green-white-bg" />
     <img src="icons/Candied_Apple_white_bg.png" id="candied-apple-white-bg" />
+    <img src="icons/Advanced_Boss_Rush_Boost_Potion_white_bg.png" id="boss-rush-white-bg" />
+    <img src="icons/Blessing_of_the_Guild_full.png" id="blessing-guild-full" />
+    <img src="icons/Ursus_full.png" id="ursus-full" />
+    <img src="icons/Exceptional_Boost_Potion_white_bg.png" id="exceptional-boost-white-bg" />
+    <img src="icons/Legendary_Hero_Potion_white_bg.png" id="legendary-hero-white-bg" />
+    <img src="icons/Advanced_Stat_Pill_white_bg.png" id="adv-stat-pill-white-bg" />
+    <img src="icons/Advanced_Stat_Pill2_white_bg.png" id="adv-stat-pill2-white-bg" />
+    <img src="icons/Advanced_Stat_Potion_white_bg.png" id="adv-stat-potion-white-bg" />
+    <img src="icons/Advanced_Stat_Potion2_white_bg.png" id="adv-stat-potion2-white-bg" />
+    <img src="icons/Ssiws_Cheese_white_bg.png" id="ssiws-cheese-white-bg" />
+    <img src="icons/onyx_apple_square_white_bg.png" id="onyx-apple-white-bg" />
+    <img src="icons/warrior_elixir_square_white_bg.png" id="warrior-elixir-white-bg" />
+    <img src="icons/wizard_elixir_square_white_bg.png" id="wizard-elixir-white-bg" />
+    <img src="icons/Baby_Dragon_Food_square_white_bg.png" id="baby-dragon-food-white-bg" />
+    <img src="icons/Cider_white_bg.png" id="cider-white-bg" />
+    <img src="icons/The_Energizer_Drink_white_bg.png" id="energizer-drink-white-bg" />
   </div>
 
   <!-- <div class="input">

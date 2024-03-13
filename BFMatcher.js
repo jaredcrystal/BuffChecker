@@ -1,9 +1,9 @@
 
 let imgElement = document.getElementById('imageSrc');
-let inputElement = document.getElementById('fileInput');
-inputElement.addEventListener('change', (e) => {
-  imgElement.src = URL.createObjectURL(e.target.files[0]);
-}, false);
+// let inputElement = document.getElementById('fileInput');
+// inputElement.addEventListener('change', (e) => {
+//   imgElement.src = URL.createObjectURL(e.target.files[0]);
+// }, false);
 
 // let buffElement = document.getElementById('buffSrc');
 // let buffInputElement = document.getElementById('buffInput');
@@ -12,6 +12,7 @@ inputElement.addEventListener('change', (e) => {
 // }, false);
 
 function markBuffFound (buff) {
+  if (!buff.display) return
   const buffImageEl = document.getElementById(buff.display)
   const parent = buffImageEl.parentNode
   const imgContainer = document.createElement('div')
@@ -30,8 +31,8 @@ function checkForBuff (buff, screenshot) {
   let dsize = new cv.Size(im1.cols*5, im1.rows*5);
   // You can try more different parameters
   cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
-  console.log('buffMat', buffMat)
-  console.log('screenshot', screenshot)
+  // console.log('buffMat', buffMat)
+  // console.log('screenshot', screenshot)
   let im1Gray = new cv.Mat();
   let im2Gray = new cv.Mat();
   cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
@@ -55,7 +56,9 @@ function checkForBuff (buff, screenshot) {
 
   // find the keypoints and descriptors with ORB
   orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
+  console.log('done computing1')
   orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
+  console.log('done computing2')
 
   // console.log('keypoints1:', keypoints1.size(), 'keypoints2:', keypoints2.size())
   // console.log('descriptors1:', descriptors1.size(), 'descriptors2:', descriptors2.size())
@@ -89,7 +92,7 @@ function checkForBuff (buff, screenshot) {
 
   console.log('good matches size:', good_matches.size())
 
-  console.log("keeping ", counter, " points in good_matches vector out of ", matches.size(), " contained in this match vector:", matches);
+  // console.log("keeping ", counter, " points in good_matches vector out of ", matches.size(), " contained in this match vector:", matches);
 
   // console.log("here are first 5 matches");
   // for (let t = 0; t < matches.size(); ++t) {
@@ -104,11 +107,11 @@ function checkForBuff (buff, screenshot) {
   // }
 
   //draw:
-  // let imMatches = new cv.Mat();
-  // let color = new cv.Scalar(0,255,0, 255);
-  // cv.drawMatches(buffMat, keypoints1, screenshot, keypoints2, 
-  //                   good_matches, imMatches, color);
-  // cv.imshow('canvasOutput3', imMatches);
+  let imMatches = new cv.Mat();
+  let color = new cv.Scalar(0,255,0, 255);
+  cv.drawMatches(buffMat, keypoints1, screenshot, keypoints2, 
+                    good_matches, imMatches, color);
+  cv.imshow('canvasOutput3', imMatches);
   
   if (counter > 1) {
     markBuffFound(buff)
@@ -122,27 +125,68 @@ function checkForBuff (buff, screenshot) {
 const buffList = [
   { display: 'familiars', algo: 'familiars' },
   { display: 'echo', algo: 'echo' },
-  { display: 'boss-rush', algo: 'boss-rush' },
+  { display: 'boss-rush', algo: 'boss-rush-white-bg' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
-  { display: 'mp-green', algo: 'mp-green' },
-  { display: 'candied-apple', algo: 'candied-apple-white-bg' }
+  { display: 'mp-green', algo: 'mp-green-white-bg' },
+  { display: 'candied-apple', algo: 'candied-apple-white-bg' },
+  { display: 'legions-might', algo: 'legions-might' },
+  { display: 'guild-boss-slayers', algo: 'guild-boss-slayers' },
+  { display: 'guild-for-the-guild', algo: 'guild-for-the-guild' },
+  { display: 'guild-hard-hitter', algo: 'guild-hard-hitter' },
+  { display: 'guild-undeterred', algo: 'guild-undeterred' },
+  { display: 'blessing-of-the-guild', algo: 'blessing-guild-full' },
+  { display: 'ursus', algo: 'ursus-full' },
+  { display: 'mvp', algo: 'mvp' },
+  { display: 'exceptional-boost', algo: 'exceptional-boost-white-bg' },
+  { display: 'legendary-hero', algo: 'legendary-hero-white-bg' },
+  { display: 'weapon-tempering', algo: 'weapon-tempering' },
+  { display: 'adv-state-pill', algo: 'adv-state-pill-white-bg' },
+  { display: 'adv-state-pill2', algo: 'adv-state-pill2-white-bg' },
+  { display: 'adv-state-potion', algo: 'adv-state-potion-white-bg' },
+  { display: 'adv-state-potion2', algo: 'adv-state-potion2-white-bg' },
+  { display: 'ssiws-cheese', algo: 'ssiws-cheese-white-bg' },
+  { display: 'onyx-apple', algo: 'onyx-apple-white-bg' },
+  { display: 'tengu', algo: 'tengu' },
+  { display: 'cold-winter-energy', algo: 'cold-winter-energy' },
+  { display: 'warrior-elixir', algo: 'warrior-elixir-white-bg' },
+  { display: 'wizard-elixir', algo: 'wizard-elixir-white-bg' },
+  { display: 'baby-dragon-food', algo: 'baby-dragon-food-white-bg' },
+  { display: 'cider', algo: 'cider-white-bg' },
+  { display: 'energizer-drink', algo: 'energizer-drink-white-bg' },
 ]
 
 function checkBuffs () {
   let im2 = cv.imread(imgElement);
   let screenshot = new cv.Mat();
-  console.log("cols/rows", im2.cols, im2.rows)
+  // console.log("cols/rows", im2.cols, im2.rows)
   let dsize = new cv.Size(im2.cols*5, im2.rows*5);
   cv.resize(im2, screenshot, dsize, 0, 0, cv.INTER_AREA);
 
   buffList.forEach(buff => checkForBuff(buff, screenshot))
-  // checkForBuff('buffSrc', screenshot)
+  // checkForBuff({algo: 'buffSrc'}, screenshot)
 
   screenshot.delete();
 }
 
 imgElement.onload = checkBuffs
 
+document.onpaste = function (event) {
+    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  // console.log(JSON.stringify(items)); // will give you the mime types
+  for (index in items) {
+    var item = items[index];
+    if (item.kind === 'file') {
+      var blob = item.getAsFile();
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        // console.log(event.target.result) // data url!
+        // imgElement.src = URL.createObjectURL(e.target.files[0]);
+        imgElement.src = event.target.result
+      };
+      reader.readAsDataURL(blob);
+    }
+  }
+}
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
   onRuntimeInitialized () {
