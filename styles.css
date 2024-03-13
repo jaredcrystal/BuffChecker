@@ -41,3 +41,7 @@ body {
   transform: translate(-50%, -50%);
   font-size: 20px;
 }
+
+.hidden {
+  display: none;
+}

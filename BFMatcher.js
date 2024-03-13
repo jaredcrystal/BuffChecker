@@ -12,7 +12,7 @@ inputElement.addEventListener('change', (e) => {
 // }, false);
 
 function markBuffFound (buff) {
-  const buffImageEl = document.getElementById(buff)
+  const buffImageEl = document.getElementById(buff.display)
   const parent = buffImageEl.parentNode
   const imgContainer = document.createElement('div')
   imgContainer.classList.add('imgContainer')
@@ -25,7 +25,7 @@ function markBuffFound (buff) {
 }
 
 function checkForBuff (buff, screenshot) {
-  let im1 = cv.imread(buff)
+  let im1 = cv.imread(buff.algo)
   let buffMat = new cv.Mat();
   let dsize = new cv.Size(im1.cols*5, im1.rows*5);
   // You can try more different parameters
@@ -120,11 +120,12 @@ function checkForBuff (buff, screenshot) {
 }
 
 const buffList = [
-  'familiars',
-  'echo',
-  'boss-rush',
-  'mp-red',
-  'mp-green'
+  { display: 'familiars', algo: 'familiars' },
+  { display: 'echo', algo: 'echo' },
+  { display: 'boss-rush', algo: 'boss-rush' },
+  { display: 'mp-red', algo: 'mp-red-white-bg' },
+  { display: 'mp-green', algo: 'mp-green' },
+  { display: 'candied-apple', algo: 'candied-apple-white-bg' }
 ]
 
 function checkBuffs () {
