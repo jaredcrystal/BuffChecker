@@ -118,7 +118,7 @@ function checkForBuff (buff, descriptors2) {
     markBuffFound(buff)
   }
 
-  buffMat.delete();
+  // buffMat.delete();
   // dst.delete();
   // mask.delete();
 }
@@ -176,7 +176,7 @@ function checkBuffs () {
   buffList.forEach(buff => checkForBuff(buff, descriptors2))
   // checkForBuff({algo: 'buffSrc'}, screenshot)
 
-  screenshot.delete();
+  // screenshot.delete();
 }
 
 imgElement.onload = checkBuffs
