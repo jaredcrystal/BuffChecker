@@ -167,35 +167,36 @@ let buffList = [
 ];
 
 function checkBuffs () {
-  let im2 = cv.imread(imgElement);
-  let screenshot = new cv.Mat();
-  // console.log("cols/rows", im2.cols, im2.rows)
-  // scale up the screenshot:
-  let dsize = new cv.Size(im2.cols*5, im2.rows*5);
   try {
+    let im2 = cv.imread(imgElement);
+    let screenshot = new cv.Mat();
+    // console.log("cols/rows", im2.cols, im2.rows)
+    // scale up the screenshot:
+    let dsize = new cv.Size(im2.cols*5, im2.rows*5);
+
     cv.resize(im2, screenshot, dsize, 0, 0, cv.INTER_AREA);
+    // grayscale the screenshot:
+    let im2Gray = new cv.Mat();
+    cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
+    // detectAndCompute keypoints and descriptors on the screenshot:
+    let keypoints2 = new cv.KeyPointVector();
+    let descriptors2 = new cv.Mat();
+    orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
+
+    buffList.forEach((buff, i) => {
+      setTimeout(() => {
+        document.getElementById('status').innerHTML = `checking buffs... ${parseInt((i+1)/buffList.length*100)}%`;
+        checkForBuff(buff, descriptors2)
+      }, i)
+    })
+
+    setTimeout(() => {
+      checkCategories()
+      document.getElementById('status').innerHTML = ''
+    }, 100)
   } catch (error) {
     document.getElementById('status').innerHTML = 'Screenshot is too big. Capture only the buff bar.'
   }
-  // grayscale the screenshot:
-  let im2Gray = new cv.Mat();
-  cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
-  // detectAndCompute keypoints and descriptors on the screenshot:
-  let keypoints2 = new cv.KeyPointVector();
-  let descriptors2 = new cv.Mat();
-  orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
-
-  buffList.forEach((buff, i) => {
-    setTimeout(() => {
-      document.getElementById('status').innerHTML = `checking buffs... ${parseInt((i+1)/buffList.length*100)}%`;
-      checkForBuff(buff, descriptors2)
-    }, i)
-  })
-
-  setTimeout(() => {
-    checkCategories()
-    document.getElementById('status').innerHTML = ''
-  }, 100)
 }
 
 imgElement.onload = checkBuffs
