@@ -179,13 +179,13 @@ function checkBuffs () {
 
   buffList.forEach((buff, i) => {
     setTimeout(() => {
-      document.getElementById('status').innerHTML = `processing your screenshot... ${parseInt((i+1)/buffList.length*100)}%`;
+      document.getElementById('status').innerHTML = `checking buffs... ${parseInt((i+1)/buffList.length*100)}%`;
       checkForBuff(buff, descriptors2)
     }, i)
   })
 
-  checkCategories()
   setTimeout(() => {
+    checkCategories()
     document.getElementById('status').innerHTML = ''
   }, 100)
 }
@@ -202,7 +202,7 @@ document.onpaste = function (event) {
       var reader = new FileReader();
       reader.onload = function (event) {
         // console.log(event.target.result) // data url!
-        document.getElementById('status').innerHTML = 'processing your screenshot... 0%'
+        document.getElementById('status').innerHTML = 'processing your screenshot...'
         imgElement.src = event.target.result
       };
       reader.readAsDataURL(blob);
