@@ -99,7 +99,11 @@ function checkForBuff (buff, descriptors2) {
   //var matches = new cv.DMatchVector();
   let matches = new cv.DMatchVectorVector();
   //bf.match(descriptors1, descriptors2, matches)
-  bf.knnMatch(buff.descriptors, descriptors2, matches, 2);
+  try {
+    bf.knnMatch(buff.descriptors, descriptors2, matches, 2);
+  } catch (error) {
+    console.log('too big')
+  }
 
   // console.log('matches', matches.size())
   
@@ -168,7 +172,11 @@ function checkBuffs () {
   // console.log("cols/rows", im2.cols, im2.rows)
   // scale up the screenshot:
   let dsize = new cv.Size(im2.cols*5, im2.rows*5);
-  cv.resize(im2, screenshot, dsize, 0, 0, cv.INTER_AREA);
+  try {
+    cv.resize(im2, screenshot, dsize, 0, 0, cv.INTER_AREA);
+  } catch (error) {
+    document.getElementById('status').innerHTML = 'Screenshot is too big. Capture only the buff bar.'
+  }
   // grayscale the screenshot:
   let im2Gray = new cv.Mat();
   cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
