@@ -1,15 +1,5 @@
 
 let imgElement = document.getElementById('imageSrc');
-// let inputElement = document.getElementById('fileInput');
-// inputElement.addEventListener('change', (e) => {
-//   imgElement.src = URL.createObjectURL(e.target.files[0]);
-// }, false);
-
-// let buffElement = document.getElementById('buffSrc');
-// let buffInputElement = document.getElementById('buffInput');
-// buffInputElement.addEventListener('change', (e) => {
-//   buffElement.src = URL.createObjectURL(e.target.files[0]);
-// }, false);
 
 const skills = [
   'familiars',
@@ -22,7 +12,6 @@ const skills = [
   'fame',
 ]
 const stackingConsumables = [
-  'boss-rush',
   'mp-red',
   'mp-green',
   'mp-blue',
@@ -44,7 +33,7 @@ const advStatPotion = [
   'adv-stat-potion',
   'adv-stat-potion2',
 ]
-const nonstackingConsumables = [
+const nonstackingConsumables1 = [
   'ssiws-cheese',
   'onyx-apple',
   'tengu',
@@ -54,6 +43,10 @@ const nonstackingConsumables = [
   'baby-dragon-food',
   'cider',
   'energizer-drink',
+]
+const nonstackingConsumables2 = [
+  'red-star',
+  'boss-rush',
 ]
 
 let found = []
@@ -89,51 +82,17 @@ function checkCategories () {
   if (advStatPotion.some(buff => found.includes(buff))) {
     document.getElementById('adv-stat-potion').classList.add('categoryComplete')
   }
-  if (nonstackingConsumables.some(buff => found.includes(buff))) {
-    document.getElementById('nonstacking-consumables').classList.add('categoryComplete')
+  if (nonstackingConsumables1.some(buff => found.includes(buff))) {
+    document.getElementById('nonstacking-consumables1').classList.add('categoryComplete')
+  }
+  if (nonstackingConsumables2.some(buff => found.includes(buff))) {
+    document.getElementById('nonstacking-consumables2').classList.add('categoryComplete')
   }
 }
 
 function checkForBuff (buff, descriptors2) {
   console.log("checking:", buff.display)
-  // let im1 = cv.imread(buff.algo)
-  // let buffMat = new cv.Mat();
-  // let dsize = new cv.Size(im1.cols*5, im1.rows*5);
-  // // You can try more different parameters
-  // cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
-  // // console.log('buffMat', buffMat)
-  // // console.log('screenshot', screenshot)
-  // let im1Gray = new cv.Mat();
-  // // let im2Gray = new cv.Mat();
-  // cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
-  // // cv.cvtColor(screenshot, im2Gray, cv.COLOR_BGRA2GRAY);
-  // // cv.imshow('canvasOutput1', im1Gray);
-  // // cv.imshow('canvasOutput2', im2Gray);
-  // let keypoints1 = new cv.KeyPointVector();
-  // // let keypoints2 = new cv.KeyPointVector();
-  // let descriptors1 = new cv.Mat();
-  // // let descriptors2 = new cv.Mat();
 
-
-  // let mask = new cv.Mat();
-  // console.log("KAZE")
-  // Initiate ORB detector
-  // let orb = new cv.ORB()
-  // let orb = new cv.AKAZE();
-  // let orb = new cv.BRISK()
-  // let orb = new cv.KAZE()
-
-
-  // find the keypoints and descriptors with ORB
-  // orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
-  // console.log('done computing1')
-  // orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
-  // console.log('done computing2')
-
-  // console.log('keypoints1:', keypoints1.size(), 'keypoints2:', keypoints2.size())
-  // console.log('descriptors1:', descriptors1.size(), 'descriptors2:', descriptors2.size())
-  // create BFMatcher object
-  // bf = new cv.BFMatcher(cv.NORM_HAMMING, true)
   let bf = new cv.BFMatcher();
 
   // # Match descriptors.
@@ -159,37 +118,10 @@ function checkForBuff (buff, descriptors2) {
           counter++;
       }
   }
-
-  // console.log('good matches size:', good_matches.size())
-
-  // console.log("keeping ", counter, " points in good_matches vector out of ", matches.size(), " contained in this match vector:", matches);
-
-  // console.log("here are first 5 matches");
-  // for (let t = 0; t < matches.size(); ++t) {
-  //     console.log("[" + t + "]", "matches: ", matches.get(t));
-  //     if (t === 5){break;}
-  // }
-    
-  // console.log("here are first 5 good_matches");
-  // for (let r = 0; r < good_matches.size(); ++r) {
-  //     console.log("[" + r + "]", "good_matches: ", good_matches.get(r));
-  //     if (r === 5){break;}
-  // }
-
-  //draw:
-  // let imMatches = new cv.Mat();
-  // let color = new cv.Scalar(0,255,0, 255);
-  // cv.drawMatches(buffMat, keypoints1, screenshot, keypoints2, 
-  //                   good_matches, imMatches, color);
-  // cv.imshow('canvasOutput3', imMatches);
   
   if (counter > 1) {
     markBuffFound(buff)
   }
-
-  // buffMat.delete();
-  // dst.delete();
-  // mask.delete();
 }
 
 let orb = null;
@@ -202,7 +134,6 @@ let buffList = [
   { display: 'guild-undeterred', algo: 'guild-undeterred' },
   { display: 'house', algo: 'house' },
   { display: 'fame', algo: 'fame' },
-  { display: 'boss-rush', algo: 'boss-rush-white-bg' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
   { display: 'mp-green', algo: 'mp-green-white-bg' },
   { display: 'mp-blue', algo: 'mp-blue-white-bg' },
@@ -227,6 +158,8 @@ let buffList = [
   { display: 'baby-dragon-food', algo: 'baby-dragon-food-white-bg' },
   { display: 'cider', algo: 'cider-white-bg' },
   { display: 'energizer-drink', algo: 'energizer-drink-white-bg' },
+  { display: 'boss-rush', algo: 'boss-rush-white-bg' },
+  { display: 'red-star', algo: 'red-star-white-bg' },
 ];
 
 function checkBuffs () {

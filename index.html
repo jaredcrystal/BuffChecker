@@ -19,12 +19,7 @@
 <body>
 <h1>Maplestory Buff Checker</h1>
 <p id="status">loading image processing library...</p>
-<!-- <button onclick="checkBuffs()">go</button> -->
 <div>
-  <!-- <div class="input">
-    <img id="imageSrc" alt="No Image" />
-    <div class="caption"><input type="file" id="fileInput" name="file" /></div>
-  </div> -->
   <img id="imageSrc" class="screenshot" />
   
   <div class="group" id="skills">
@@ -41,7 +36,6 @@
 
   <div class="group" id="stacking-consumables">
     <div class="groupTitle">Stacking Consumables</div>
-    <img src="icons/Advanced_Boss_Rush_Boost_Potion.png" id="boss-rush" title="Advanced Boss Rush Boost Potion" />
     <img src="icons/MP_Extreme_Red_Potion.png" id="mp-red" title="Monster Park Extreme Red Potion" />
     <img src="icons/MP_Extreme_Blue_Potion.png" id="mp-blue" title="Monster Park Extreme Blue Potion" />
     <img src="icons/MP_Extreme_Green_Potion.png" id="mp-green" title="Monster Park Extreme Green Potion" />
@@ -78,7 +72,7 @@
 
   <div class="group">
     <div class="groupTitle">Nonstacking Consumables</div>
-    <div class="subgroup" id="nonstacking-consumables">
+    <div class="subgroup" id="nonstacking-consumables1">
       <div class="subgroupTitle">(max: 1)</div>
       <img src="icons/Ssiws_Cheese.png" id="ssiws-cheese" title="Ssiws Cheese" />
       <img src="icons/onyx_apple.gif" id="onyx-apple" title="Onyx Apple" />
@@ -89,6 +83,11 @@
       <img src="icons/Baby_Dragon_Food.png" id="baby-dragon-food" title="Baby Dragon Food" />
       <img src="icons/Cider.png" id="cider" title="Cider" />
       <img src="icons/the-energizer-drink.png" id="energizer-drink" title="The Energizer Drink" />
+    </div>
+    <div class="subgroup" id="nonstacking-consumables2">
+      <div class="subgroupTitle">(max: 1)</div>
+      <img src="icons/Red_Star_Potion.png" id="red-star" title="Sparkling Red Star Potion" />
+      <img src="icons/Advanced_Boss_Rush_Boost_Potion.png" id="boss-rush" title="Advanced Boss Rush Boost Potion" />
     </div>
   </div>
 
@@ -113,16 +112,8 @@
     <img src="icons/Baby_Dragon_Food_square_white_bg.png" id="baby-dragon-food-white-bg" />
     <img src="icons/Cider_white_bg.png" id="cider-white-bg" />
     <img src="icons/The_Energizer_Drink_white_bg.png" id="energizer-drink-white-bg" />
+    <img src="icons/Red_Star_Potion_white_bg.png" id="red-star-white-bg" />
   </div>
-
-  <!-- <div class="input">
-    <img id="buffSrc" alt="No Image" />
-    <div class="caption"><input type="file" id="buffInput" name="file" /></div>
-  </div> -->
-
-  <canvas id="canvasOutput1"></canvas>
-  <canvas id="canvasOutput2"></canvas>
-  <canvas id="canvasOutput3"></canvas>
 </div>
 <script src="BFMatcher.js" type="text/javascript"></script>
 <script async src="https://docs.opencv.org/4.x/opencv.js" type="text/javascript"></script>
