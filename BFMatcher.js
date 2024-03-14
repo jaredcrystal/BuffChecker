@@ -178,14 +178,16 @@ function checkBuffs () {
   orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
 
   buffList.forEach((buff, i) => {
-    setTimeout(() => { // timeout to force the DOM to redraw
+    setTimeout(() => {
       document.getElementById('status').innerHTML = `processing your screenshot... ${parseInt((i+1)/buffList.length*100)}%`;
-    })
-    checkForBuff(buff, descriptors2)
+      checkForBuff(buff, descriptors2)
+    }, i)
   })
 
   checkCategories()
-  document.getElementById('status').innerHTML = ''
+  setTimeout(() => {
+    document.getElementById('status').innerHTML = ''
+  }, 100)
 }
 
 imgElement.onload = checkBuffs
