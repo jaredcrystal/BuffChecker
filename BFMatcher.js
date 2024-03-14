@@ -177,10 +177,11 @@ function checkBuffs () {
   let descriptors2 = new cv.Mat();
   orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
 
-  buffList.forEach(buff => checkForBuff(buff, descriptors2))
-  // checkForBuff({algo: 'buffSrc'}, screenshot)
+  buffList.forEach((buff, i) => {
+    document.getElementById('status').innerHTML = `processing your screenshot... ${parseInt((i+1)/buffList.length*100)}%`
+    checkForBuff(buff, descriptors2)
+  })
 
-  // screenshot.delete();
   checkCategories()
   document.getElementById('status').innerHTML = ''
 }
@@ -197,8 +198,7 @@ document.onpaste = function (event) {
       var reader = new FileReader();
       reader.onload = function (event) {
         // console.log(event.target.result) // data url!
-        // imgElement.src = URL.createObjectURL(e.target.files[0]);
-        document.getElementById('status').innerHTML = 'processing your screenshot...'
+        document.getElementById('status').innerHTML = 'processing your screenshot... 0%'
         imgElement.src = event.target.result
       };
       reader.readAsDataURL(blob);
