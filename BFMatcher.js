@@ -178,9 +178,9 @@ function checkBuffs () {
   orb.detectAndCompute(im2Gray, new cv.Mat(), keypoints2, descriptors2);
 
   buffList.forEach((buff, i) => {
-    const status = document.getElementById('status')
-    status.innerHTML = `processing your screenshot... ${parseInt((i+1)/buffList.length*100)}%`
-    var height = status.offsetHeight
+    setTimeout(() => { // timeout to force the DOM to redraw
+      document.getElementById('status').innerHTML = `processing your screenshot... ${parseInt((i+1)/buffList.length*100)}%`;
+    })
     checkForBuff(buff, descriptors2)
   })
 
