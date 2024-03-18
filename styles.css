@@ -4,7 +4,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h1, p {
+h1 {
+  text-align: center;
+  margin-top: 0;
+}
+
+p {
   text-align: center;
 }
 

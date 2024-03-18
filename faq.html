@@ -6,6 +6,28 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a href="./index.html">Buff Checker</a>
+<h1>FAQ</h1>
+
+<h2>What is Buff Checker for?</h2>
+<div>The primary use case is to quickly double check that you haven't missed any buffs after popping everything before going into a boss fight.</div>
+
+<h2>Pro Tips:</h2>
+<ul>
+  <li>The smaller your screenshot, the faster it will run, as there is less area to scan/process.</li>
+  <li>The Buff Checker will be most reliable with fresh buffs. As the buffs slowly get covered by the dark cooldown indicator, it can struggle to match reliably.</li>
+</ul>
+
+<h2>How does it work?</h2>
+<div>It uses a computer vision library (<a target="_blank" href="https://opencv.org/" >OpenCV</a>) to scan the screenshot for each buff icon. Rather than looking for an exact match, it uses feature detection to more robustly handle differences in resolution, etc.</div>
+
+<h2>What does this mean?</h2>
+<div>This means it's not 100% reliable/perfect at identifying buffs. Especially since the buff icons are so small, there are relatively few defining features for each buff. This issue is compounded by Maplestory's cooldown indicators.</div>
+
+<h2>It made a mistake!</h2>
+<div>Occasional mistakes are expected (moreso with buffs that are partially obfuscated by the dark cooldown indicator). For example, it often confuses the Monster Park potions since they look so similar (especially since the images are compared in grayscale).</div>
+<br />
+<div>If you found a bug/issue (i.e. it consistently fails to identify a particular freshly popped buff), feel free to <a target="_blank" href="https://github.com/jaredcrystal/BuffChecker/issues">file an issue</a>.</div>
 
 </body>
 </html>
