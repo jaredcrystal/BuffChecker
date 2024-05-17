@@ -25,9 +25,10 @@ const stackingConsumables = [
   'ursus',
   'mvp',
 ]
+const eventBuffs = ['vip']
 const alchemy = ['exceptional-boost', 'legendary-hero']
 const smithing = ['weapon-tempering']
-const advStatPotion = [
+const advStatPotions = [
   'adv-stat-pill',
   'adv-stat-pill2',
   'adv-stat-potion',
@@ -74,14 +75,17 @@ function checkCategories () {
   if (stackingConsumables.every(buff => found.includes(buff))) {
     document.getElementById('stacking-consumables').classList.add('categoryComplete')
   }
+  if (eventBuffs.every(buff => found.includes(buff))) {
+    document.getElementById('event-buffs').classList.add('categoryComplete')
+  }
   if (alchemy.some(buff => found.includes(buff))) {
     document.getElementById('alchemy').classList.add('categoryComplete')
   }
   if (smithing.every(buff => found.includes(buff))) {
     document.getElementById('smithing').classList.add('categoryComplete')
   }
-  if (advStatPotion.some(buff => found.includes(buff))) {
-    document.getElementById('adv-stat-potion').classList.add('categoryComplete')
+  if (advStatPotions.some(buff => found.includes(buff))) {
+    document.getElementById('adv-stat-potions').classList.add('categoryComplete')
   }
   if (nonstackingConsumables1.some(buff => found.includes(buff))) {
     document.getElementById('nonstacking-consumables1').classList.add('categoryComplete')
@@ -147,6 +151,7 @@ let buffList = [
   { display: 'blessing-of-the-guild', algo: 'blessing-guild-full' },
   { display: 'ursus', algo: 'ursus-full' },
   { display: 'mvp', algo: 'mvp' },
+  { display: 'vip', algo: 'vip' },
   { display: 'exceptional-boost', algo: 'exceptional-boost-white-bg' },
   { display: 'legendary-hero', algo: 'legendary-hero-white-bg' },
   { display: 'weapon-tempering', algo: 'weapon-tempering' },
