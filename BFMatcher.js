@@ -142,7 +142,7 @@ let buffList = [
   { display: 'guild-hard-hitter', algo: 'guild-hard-hitter' },
   { display: 'guild-undeterred', algo: 'guild-undeterred' },
   { display: 'house', algo: 'house' },
-  { display: 'fame', algo: 'fame' },
+  { display: 'fame', algo: 'fame-full' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
   { display: 'mp-green', algo: 'mp-green-white-bg' },
   { display: 'mp-blue', algo: 'mp-blue-white-bg' },
