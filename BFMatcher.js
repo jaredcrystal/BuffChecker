@@ -11,18 +11,19 @@ const skills = [
   'house',
   'fame',
 ]
+const survivability = [
+  'heavens-door',
+  'aurelias-elixer'
+]
 const stackingConsumables = [
   'mp-red',
-  'mp-green',
   'mp-blue',
+  'mp-green',
   'candied-apple',
-  'legions-might',
-  'guild-boss-slayers',
-  'guild-for-the-guild',
-  'guild-hard-hitter',
-  'guild-undeterred',
+  'sayrams-elixer',
   'blessing-of-the-guild',
   'ursus',
+  'legions-might',
   'mvp',
 ]
 const eventBuffs = ['vip']
@@ -70,7 +71,10 @@ function markBuffFound (buff) {
 
 function checkCategories () {
   if (skills.every(buff => found.includes(buff))) {
-    document.getElementById('skills').classList.add('categoryComplete')
+    document.getElementById('stacking-skills').classList.add('categoryComplete')
+  }
+  if (survivability.some(buff => found.includes(buff))) {
+    document.getElementById('survivability').classList.add('categoryComplete')
   }
   if (stackingConsumables.every(buff => found.includes(buff))) {
     document.getElementById('stacking-consumables').classList.add('categoryComplete')
