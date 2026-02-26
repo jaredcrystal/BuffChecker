@@ -10,6 +10,7 @@ const skills = [
   'guild-undeterred',
   'house',
   'fame',
+  'champions-renown',
 ]
 const survivability = [
   'heavens-door',
@@ -54,7 +55,7 @@ const nonstackingConsumables2 = [
 
 let found = []
 
-function markBuffFound (buff) {
+function markBuffFound(buff) {
   if (!buff.display) return
   const buffImageEl = document.getElementById(buff.display)
   const parent = buffImageEl.parentNode
@@ -69,7 +70,7 @@ function markBuffFound (buff) {
   found.push(buff.display)
 }
 
-function checkCategories () {
+function checkCategories() {
   if (skills.every(buff => found.includes(buff))) {
     document.getElementById('stacking-skills').classList.add('categoryComplete')
   }
@@ -99,7 +100,7 @@ function checkCategories () {
   }
 }
 
-function checkForBuff (buff, descriptors2) {
+function checkForBuff(buff, descriptors2) {
   console.log("checking:", buff.display)
 
   let bf = new cv.BFMatcher();
@@ -115,23 +116,23 @@ function checkForBuff (buff, descriptors2) {
   }
 
   // console.log('matches', matches.size())
-  
+
   let good_matches = new cv.DMatchVector();
   let knnDistance_option = 0.7;
   let counter = 0;
   for (let i = 0; i < matches.size(); ++i) {
-      let match = matches.get(i);
-      // console.log('match', match)
-      let dMatch1 = match.get(0);
-      let dMatch2 = match.get(1);
-      //console.log("[", i, "] ", "dMatch1: ", dMatch1, "dMatch2: ", dMatch2);
-      if (dMatch1.distance <= dMatch2.distance * parseFloat(knnDistance_option)) {
-          //console.log("***Good Match***", "dMatch1.distance: ", dMatch1.distance, "was less than or = to: ", "dMatch2.distance * parseFloat(knnDistance_option)", dMatch2.distance * parseFloat(knnDistance_option), "dMatch2.distance: ", dMatch2.distance, "knnDistance", knnDistance_option);
-          good_matches.push_back(dMatch1);
-          counter++;
-      }
+    let match = matches.get(i);
+    // console.log('match', match)
+    let dMatch1 = match.get(0);
+    let dMatch2 = match.get(1);
+    //console.log("[", i, "] ", "dMatch1: ", dMatch1, "dMatch2: ", dMatch2);
+    if (dMatch1.distance <= dMatch2.distance * parseFloat(knnDistance_option)) {
+      //console.log("***Good Match***", "dMatch1.distance: ", dMatch1.distance, "was less than or = to: ", "dMatch2.distance * parseFloat(knnDistance_option)", dMatch2.distance * parseFloat(knnDistance_option), "dMatch2.distance: ", dMatch2.distance, "knnDistance", knnDistance_option);
+      good_matches.push_back(dMatch1);
+      counter++;
+    }
   }
-  
+
   if (counter > 1) {
     markBuffFound(buff)
   }
@@ -147,6 +148,7 @@ let buffList = [
   { display: 'guild-undeterred', algo: 'guild-undeterred' },
   { display: 'house', algo: 'house' },
   { display: 'fame', algo: 'fame-full' },
+  { display: 'champions-renown', algo: 'champions-renown' },
   { display: 'mp-red', algo: 'mp-red-white-bg' },
   { display: 'mp-green', algo: 'mp-green-white-bg' },
   { display: 'mp-blue', algo: 'mp-blue-white-bg' },
@@ -156,6 +158,7 @@ let buffList = [
   { display: 'heavens-door', algo: 'heavens-door' },
   { display: 'legions-might', algo: 'legions-might' },
   { display: 'blessing-of-the-guild', algo: 'blessing-guild-full' },
+  { display: 'blessing-of-the-guild', algo: 'greater-blessing-guild' },
   { display: 'ursus', algo: 'ursus-full' },
   { display: 'mvp', algo: 'mvp' },
   { display: 'vip', algo: 'vip' },
@@ -180,13 +183,13 @@ let buffList = [
   { display: 'red-star', algo: 'red-star-white-bg' },
 ];
 
-function checkBuffs () {
+function checkBuffs() {
   try {
     let im2 = cv.imread(imgElement);
     let screenshot = new cv.Mat();
     // console.log("cols/rows", im2.cols, im2.rows)
     // scale up the screenshot:
-    let dsize = new cv.Size(im2.cols*5, im2.rows*5);
+    let dsize = new cv.Size(im2.cols * 5, im2.rows * 5);
 
     cv.resize(im2, screenshot, dsize, 0, 0, cv.INTER_AREA);
     // grayscale the screenshot:
@@ -199,7 +202,7 @@ function checkBuffs () {
 
     buffList.forEach((buff, i) => {
       setTimeout(() => {
-        document.getElementById('status').innerHTML = `checking buffs... ${parseInt((i+1)/buffList.length*100)}%`;
+        document.getElementById('status').innerHTML = `checking buffs... ${parseInt((i + 1) / buffList.length * 100)}%`;
         checkForBuff(buff, descriptors2)
       }, i)
     })
@@ -216,7 +219,7 @@ function checkBuffs () {
 imgElement.onload = checkBuffs
 
 document.onpaste = function (event) {
-    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  var items = (event.clipboardData || event.originalEvent.clipboardData).items;
   // console.log(JSON.stringify(items)); // will give you the mime types
   for (index in items) {
     var item = items[index];
@@ -234,29 +237,36 @@ document.onpaste = function (event) {
 }
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-  onRuntimeInitialized () {
+  onRuntimeInitialized() {
     document.getElementById('status').innerHTML = 'processing buff icons...';
 
-    orb = new cv.AKAZE();
-    console.log('prepping buff icons')
-    buffList.forEach(buff => {
-      // read the buff image
-      let im1 = cv.imread(buff.algo)
-      // resize (make it 5x bigger)
-      let buffMat = new cv.Mat();
-      let dsize = new cv.Size(im1.cols*5, im1.rows*5);
-      cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
-      // grayscale it
-      let im1Gray = new cv.Mat();
-      cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
-      let keypoints1 = new cv.KeyPointVector();
-      let descriptors1 = new cv.Mat();
-      // find the keypoints and descriptors with ORB
-      orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
-      // save the descriptors in the buff object
-      buff.descriptors = descriptors1;
-    })
-    console.log('done with icons')
-    document.getElementById('status').innerHTML = 'Ready! Paste a screenshot of your buff bar.';
+    try {
+      orb = new cv.AKAZE();
+      console.log('prepping buff icons')
+      buffList.forEach(buff => {
+        // read the buff image
+        let im1 = cv.imread(buff.algo)
+        // resize (make it 5x bigger)
+        let buffMat = new cv.Mat();
+        let dsize = new cv.Size(im1.cols * 5, im1.rows * 5);
+        cv.resize(im1, buffMat, dsize, 0, 0, cv.INTER_AREA);
+        // grayscale it
+        let im1Gray = new cv.Mat();
+        cv.cvtColor(buffMat, im1Gray, cv.COLOR_BGRA2GRAY);
+        let keypoints1 = new cv.KeyPointVector();
+        let descriptors1 = new cv.Mat();
+        // find the keypoints and descriptors with ORB
+        orb.detectAndCompute(im1Gray, new cv.Mat(), keypoints1, descriptors1);
+        // save the descriptors in the buff object
+        buff.descriptors = descriptors1;
+      })
+      console.log('done with icons')
+      document.getElementById('status').innerHTML = 'Ready! Paste a screenshot of your buff bar.';
+    } catch (error) {
+      document.getElementById('status').innerHTML = 'An error occurred. Please refresh the page and try again.';
+      document.getElementById('status').style.color = '#b00000';
+      document.getElementById('status').style.fontWeight = 'bold';
+      throw error
+    }
   }
 };
